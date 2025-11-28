@@ -3,6 +3,7 @@
 #include "grid.h"
 #include "switches.h"
 #include <cstdlib>
+#include <iostream>
 
 // ============================================================================
 // TRAINS.CPP - Train logic
@@ -18,6 +19,7 @@
 // Activate trains scheduled for this tick.
 // ----------------------------------------------------------------------------
 void spawnTrainsForTick() {
+    std::cout << "hello";
 }
 
 // ----------------------------------------------------------------------------

@@ -9,7 +9,7 @@
 // TRAIN SPAWNING
 // ----------------------------------------------------------------------------
 // Spawn trains scheduled for the current tick.
-void spawnTrainsForTick(int trainId);
+void spawnTrainsForTick();
 
 // ----------------------------------------------------------------------------
 // TRAIN ROUTING

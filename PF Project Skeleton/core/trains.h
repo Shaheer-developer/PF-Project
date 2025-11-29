@@ -9,7 +9,7 @@
 // TRAIN SPAWNING
 // ----------------------------------------------------------------------------
 // Spawn trains scheduled for the current tick.
-void spawnTrainsForTick();
+void spawnTrainsForTick(int trainId);
 
 // ----------------------------------------------------------------------------
 // TRAIN ROUTING
@@ -18,13 +18,13 @@ void spawnTrainsForTick();
 void determineAllRoutes();
 
 // Compute next position/direction for a train.
-bool determineNextPosition();
+bool determineNextPosition(int trainId);
 
 // Get next direction on entering a tile.
-int getNextDirection();
+int getNextDirection(int trainId, int x, int y, int inDir);
 
 // Choose best direction at a crossing.
-int getSmartDirectionAtCrossing();
+int getSmartDirectionAtCrossing(int x, int y);
 
 // ----------------------------------------------------------------------------
 // TRAIN MOVEMENT

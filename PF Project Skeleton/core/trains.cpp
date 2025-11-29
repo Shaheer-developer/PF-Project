@@ -254,6 +254,18 @@ int getSmartDirectionAtCrossing(int x, int y)
 // ----------------------------------------------------------------------------
 void determineAllRoutes()
 {
+    for (int i = 0; i < numTrains; i++)
+    {
+        if (trainState[i] == TRAIN_STATE_ACTIVE)
+        {
+            //determine routes for train and where the train will go 
+            store_moveValid[i] = determineNextPosition(i);
+        }
+        else
+        {
+            store_moveValid[i] = false;
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------

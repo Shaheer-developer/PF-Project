@@ -300,6 +300,18 @@ void determineAllRoutes()
 // ----------------------------------------------------------------------------
 void moveAllTrains()
 {
+        detectCollisions();
+
+    for (int i = 0; i < numTrains; i++)
+    {
+        if (trainState[i] == TRAIN_STATE_ACTIVE && store_moveValid[i])
+        {
+            train_x[i] = store_nextX[i];
+            train_y[i] = store_nextY[i];
+            currDir[i] = store_nextDir[i];
+        }
+    }
+    checkArrivals();
 }
 
 // ----------------------------------------------------------------------------
@@ -309,6 +321,81 @@ void moveAllTrains()
 // ----------------------------------------------------------------------------
 void detectCollisions()
 {
+     int dist[MAX_TRAINS];
+    for (int i = 0; i < numTrains; i++)
+    {
+        if (trainState[i] == TRAIN_STATE_ACTIVE)
+        {
+            dist[i] = getDistanceToDestination(i);
+        }
+        else
+        {
+            dist[i] = 0;
+        }
+    }
+
+    for (int i = 0; i < numTrains; i++)
+    {
+        if (trainState[i] != TRAIN_STATE_ACTIVE)
+            continue;
+        if (!store_moveValid[i])
+            continue;
+
+        for (int j = i + 1; j < numTrains; j++)
+        {
+            if (trainState[j] != TRAIN_STATE_ACTIVE)
+                continue;
+            if (!store_moveValid[j])
+                continue;
+
+            bool conflict = false;
+
+            //same target collision
+            if (store_nextX[i] == store_nextX[j] && store_nextY[i] == store_nextY[j])
+            {
+                conflict = true;
+            }
+            //head on swap collision
+            else if (store_nextX[i] == train_x[j] && store_nextY[i] == train_y[j] &&
+                     store_nextX[j] == train_x[i] && store_nextY[j] == train_y[i])
+            {
+                conflict = true;
+            }
+
+            if (conflict)
+            {
+                cout << "Conflict: Train " << i << " (Dist " << dist[i] << ") vs Train " << j << " (Dist " << dist[j] << ")" << endl;
+
+               //equal distance crash
+                if (dist[i] == dist[j])
+                {
+                    trainState[i] = TRAIN_STATE_CRASHED;
+                    trainState[j] = TRAIN_STATE_CRASHED;
+                    store_moveValid[i] = false;
+                    store_moveValid[j] = false;
+                    crashedCount += 2;
+                    cout << "  -> TIE! Both Crashed." << endl;
+                }
+                //piorty to higher distance
+                else if (dist[i] > dist[j])
+                {
+                    //i is further so i moves and j will wait
+                    store_moveValid[j] = false;
+                    store_nextX[j] = train_x[j];
+                    store_nextY[j] = train_y[j];
+                    cout << "  -> Train " << i << " has priority. Train " << j << " waits." << endl;
+                }
+                else
+                {
+                    // j is further, so j moves. i waits.
+                    store_moveValid[i] = false;
+                    store_nextX[i] = train_x[i];
+                    store_nextY[i] = train_y[i];
+                    cout << "  -> Train " << j << " has priority. Train " << i << " waits." << endl;
+                }
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -318,6 +405,19 @@ void detectCollisions()
 // ----------------------------------------------------------------------------
 void checkArrivals()
 {
+        for (int i = 0; i < numTrains; i++)
+    {
+        if (trainState[i] == TRAIN_STATE_ACTIVE)
+        {
+            // chcek for the destination tile
+            if (grid[train_y[i]][train_x[i]] == 'D')
+            {
+                trainState[i] = TRAIN_STATE_ARRIVED;
+                arrivedCount++;
+                cout << "Train " << i << " Arrived!" << endl;
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------

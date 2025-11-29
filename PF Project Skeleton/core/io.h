@@ -9,7 +9,7 @@
 // LEVEL LOADING
 // ----------------------------------------------------------------------------
 // Load a .lvl file.
-bool loadLevelFile();
+bool loadLevelFile(char const* filename);
 
 // ----------------------------------------------------------------------------
 // LOGGING

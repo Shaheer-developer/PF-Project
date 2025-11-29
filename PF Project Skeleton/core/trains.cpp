@@ -14,6 +14,31 @@ static int store_nextY[MAX_TRAINS];
 static int store_nextDir[MAX_TRAINS];
 static bool store_moveValid[MAX_TRAINS];
 
+int getDistanceToDestination(int trainId)
+{
+    int cx = train_x[trainId];
+    int cy = train_y[trainId];
+    int minDist = INT_MAX;
+
+    // manhatten distance to nearest destination
+    for (int r = 0; r < rows; r++)
+    {
+        for (int c = 0; c < cols; c++)
+        {
+            if (grid[r][c] == 'D')
+            {
+                int dist = abs(c - cx) + abs(r - cy);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                }
+            }
+        }
+    }
+    return (minDist == INT_MAX) ? 0 : minDist;
+}
+
+
 void spawnTrainsForTick()
 {
     for (int i = 0; i < numTrains; i++)
@@ -232,7 +257,7 @@ int getSmartDirectionAtCrossing(int x, int y)
         int nx = x + dx[d];
         int ny = y + dy[d];
 
-        // must be grid
+        // must be gird
         if (isInBounds(nx, ny) && grid[ny][nx] != ' ')
         {
             int distToDest = abs(targetX - nx) + abs(targetY - ny);

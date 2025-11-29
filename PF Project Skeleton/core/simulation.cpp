@@ -30,3 +30,10 @@ void simulateOneTick() {
 
 bool isSimulationComplete() {
 }
+
+void updateTick(){
+    tick++;
+
+    spawnTrainsForTick();
+
+}

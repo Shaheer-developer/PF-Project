@@ -23,6 +23,8 @@ void initializeSimulation();
 // True if all trains are delivered or crashed.
 bool isSimulationComplete();
 
+void updateTick();
+
 #endif
 
 

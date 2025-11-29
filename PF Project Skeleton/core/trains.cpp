@@ -3,21 +3,82 @@
 #include "grid.h"
 #include "switches.h"
 #include <cstdlib>
+#include <iostream>
+#include <climits>
 
-// ============================================================================
-// TRAINS.CPP - Train logic
-// ============================================================================
+using namespace std;
 
-// Storage for planned moves (for collisions).
+void spawnTrainsForTick()
+{
+    for (int i = 0; i < numTrains; i++)
+    {
+        if (trainState[i] == TRAIN_STATE_SCHEDULED && spawnTick[i] <= tick)
+        {
 
-// Previous positions (to detect switch entry).
+            int tx = spawnX[i];
+            int ty = spawnY[i];
 
-// ----------------------------------------------------------------------------
-// SPAWN TRAINS FOR CURRENT TICK
-// ----------------------------------------------------------------------------
-// Activate trains scheduled for this tick.
-// ----------------------------------------------------------------------------
-void spawnTrainsForTick() {
+            if (grid[ty][tx] != 'S')
+            {
+                int bestDist = INT_MAX;
+                int bestX = -1;
+                int bestY = -1;
+
+                //search in gird
+                for (int r = 0; r < rows; r++)
+                {
+                    for (int c = 0; c < cols; c++)
+                    {
+                        if (grid[r][c] == 'S')
+                        {
+                            //manhatten distance for destination 
+                            int dist = abs(c - tx) + abs(r - ty);
+                            if (dist < bestDist)
+                            {
+                                bestDist = dist;
+                                bestX = c;
+                                bestY = r;
+                            }
+                        }
+                    }
+                }
+
+                //relocate the nearest spawn point, because some spawn points are incorrect given in level files
+                if (bestX != -1)
+                {
+                    cout << "Warning: Train " << i << " config (" << tx << "," << ty
+                         << ") invalid. Relocating to nearest Spawn at (" << bestX << "," << bestY << ")." << endl;
+                    tx = bestX;
+                    ty = bestY;
+                }
+            }
+
+            //occupancy check
+            bool occupied = false;
+            for (int j = 0; j < numTrains; j++)
+            {
+                if (trainState[j] == TRAIN_STATE_ACTIVE && train_x[j] == tx && train_y[j] == ty)
+                {
+                    occupied = true;
+                    break;
+                }
+            }
+
+            //spawn
+            if (!occupied)
+            {
+                trainState[i] = TRAIN_STATE_ACTIVE;
+                train_x[i] = tx;
+                train_y[i] = ty;
+                currDir[i] = spawn_dir[i];
+                cout << "Spawned Train " << i << " at (" << tx << "," << ty << ")" << endl;
+            }
+            else
+            {
+                cout << "Train " << i << " delayed (Spawn blocked)" << endl;
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -25,7 +86,8 @@ void spawnTrainsForTick() {
 // ----------------------------------------------------------------------------
 // Compute next position/direction from current tile and rules.
 // ----------------------------------------------------------------------------
-bool determineNextPosition() {
+bool determineNextPosition()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -33,7 +95,8 @@ bool determineNextPosition() {
 // ----------------------------------------------------------------------------
 // Return new direction after entering the tile.
 // ----------------------------------------------------------------------------
-int getNextDirection() {
+int getNextDirection()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -41,7 +104,8 @@ int getNextDirection() {
 // ----------------------------------------------------------------------------
 // Choose best direction at '+' toward destination.
 // ----------------------------------------------------------------------------
-int getSmartDirectionAtCrossing() {
+int getSmartDirectionAtCrossing()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -49,7 +113,8 @@ int getSmartDirectionAtCrossing() {
 // ----------------------------------------------------------------------------
 // Fill next positions/directions for all trains.
 // ----------------------------------------------------------------------------
-void determineAllRoutes() {
+void determineAllRoutes()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -57,7 +122,8 @@ void determineAllRoutes() {
 // ----------------------------------------------------------------------------
 // Move trains; resolve collisions and apply effects.
 // ----------------------------------------------------------------------------
-void moveAllTrains() {
+void moveAllTrains()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -65,7 +131,8 @@ void moveAllTrains() {
 // ----------------------------------------------------------------------------
 // Resolve same-tile, swap, and crossing conflicts.
 // ----------------------------------------------------------------------------
-void detectCollisions() {
+void detectCollisions()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -73,7 +140,8 @@ void detectCollisions() {
 // ----------------------------------------------------------------------------
 // Mark trains that reached destinations.
 // ----------------------------------------------------------------------------
-void checkArrivals() {
+void checkArrivals()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -81,7 +149,8 @@ void checkArrivals() {
 // ----------------------------------------------------------------------------
 // Apply halt to trains in the active zone.
 // ----------------------------------------------------------------------------
-void applyEmergencyHalt() {
+void applyEmergencyHalt()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -89,5 +158,6 @@ void applyEmergencyHalt() {
 // ----------------------------------------------------------------------------
 // Decrement timer and disable when done.
 // ----------------------------------------------------------------------------
-void updateEmergencyHalt() {
+void updateEmergencyHalt()
+{
 }

@@ -53,6 +53,29 @@ void updateSwitchCounters()
 // ----------------------------------------------------------------------------
 void queueSwitchFlips()
 {
+     for (int i = 0; i < MAX_SWITCHES; i++)
+    {
+        if (!switchActive[i])
+            continue;
+
+        //checking for all four directions
+        for (int dir = 0; dir < 4; dir++)
+        {
+
+            //determining the k value
+            int currentCount = counters[i][dir];
+            int kValue = kValues[i][dir];
+
+            if (sw_mode[i] == SWITCH_MODE_GLOBAL && dir > 0)
+                continue;
+
+            //if limit reached flipt he queue
+            if (currentCount >= kValue && kValue > 0)
+            {
+                flipQueued[i] = true;
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------

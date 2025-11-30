@@ -11,17 +11,28 @@
 // ============================================================================
 
 // ----------------------------------------------------------------------------
-// INITIALIZE SIMULATION
-// ----------------------------------------------------------------------------
-
-void initializeSimulation() {
-}
-
-// ----------------------------------------------------------------------------
 // SIMULATE ONE TICK
 // ----------------------------------------------------------------------------
 
 void simulateOneTick() {
+        //spawn
+    spawnTrainsForTick();
+
+    //route determination
+    determineAllRoutes();
+
+    //update switch counter
+    updateSwitchCounters();
+
+    //flip acc to k values
+    queueSwitchFlips();
+
+    //movement
+    moveAllTrains();
+
+    //change state and reset counter
+    applyDeferredFlips();
+    
 }
 
 // ----------------------------------------------------------------------------
@@ -34,6 +45,6 @@ bool isSimulationComplete() {
 void updateTick(){
     tick++;
 
-    spawnTrainsForTick();
+    simulateOneTick();
 
 }

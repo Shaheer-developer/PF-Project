@@ -74,6 +74,17 @@ void simulateOneTick()
 
 bool isSimulationComplete()
 {
+     bool anyActive = false;
+    bool anyScheduled = false;
+
+    for (int i = 0; i < numTrains; i++) {
+        if (trainState[i] == TRAIN_STATE_ACTIVE)
+            anyActive = true;
+        if (trainState[i] == TRAIN_STATE_SCHEDULED)
+            anyScheduled = true;
+    }
+
+    return (!anyActive && !anyScheduled);
 }
 
 void updateTick()

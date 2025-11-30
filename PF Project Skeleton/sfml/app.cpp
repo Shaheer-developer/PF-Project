@@ -200,6 +200,10 @@ void runApp() {
                 timeSinceLastUpdate -= timePerTick;
                 updateTick();
             }
+            if(isSimulationComplete()){
+                cout << "\nAll trains completed - simulation finished!"<< endl;
+                g_isPaused = true;
+            }
         }
         else
         {

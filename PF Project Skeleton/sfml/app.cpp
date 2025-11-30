@@ -17,7 +17,7 @@ using namespace std;
 // ----------------------------------------------------------------------------
 // GLOBAL VARIABLES FOR APP STATE
 // ----------------------------------------------------------------------------
-static sf::RenderWindow* g_window = nullptr;
+static sf::RenderWindow *g_window = nullptr;
 static sf::Font g_font;
 
 // View for camera (panning/zoom)
@@ -36,7 +36,6 @@ static int g_lastMouseY = 0;
 static float g_cellSize = 40.0f;
 static float g_gridOffsetX = 50.0f;
 static float g_gridOffsetY = 50.0f;
-
 
 sf::Texture horizontal_t, vertical_t, trackCross, trackLeft, trackRight;
 sf::Texture switchOpen, switchClosed;
@@ -64,25 +63,26 @@ void loadTexture(sf::Texture &tex, string filename)
 // This should be called once at the start of the application before entering
 // the main loop.
 // ----------------------------------------------------------------------------
-bool initializeApp() {
-     g_window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Switchback Rails");
+bool initializeApp()
+{
+    g_window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Switchback Rails");
     g_window->setFramerateLimit(60);
 
     cout << "Loading Textures..." << endl;
 
     // loading texture
-    loadTexture(horizontal_t, "track.png");               
-    loadTexture(vertical_t, "track_vertical.png");      
-    loadTexture(trackCross, "track_cross.png");      
-    loadTexture(trackLeft, "track_tilt_left.png");   
-    loadTexture(trackRight, "track_tilt_right.png"); 
+    loadTexture(horizontal_t, "track.png");
+    loadTexture(vertical_t, "track_vertical.png");
+    loadTexture(trackCross, "track_cross.png");
+    loadTexture(trackLeft, "track_tilt_left.png");
+    loadTexture(trackRight, "track_tilt_right.png");
 
-    loadTexture(spawn, "tile_spawn_blue.png");    
-    loadTexture(dest, "tile_destination_red.png"); 
-    loadTexture(safety, "tile_safety.png");        
+    loadTexture(spawn, "tile_spawn_blue.png");
+    loadTexture(dest, "tile_destination_red.png");
+    loadTexture(safety, "tile_safety.png");
 
-    loadTexture(switchClosed, "switch_closed.png"); 
-    loadTexture(switchOpen, "switch_open.png");     
+    loadTexture(switchClosed, "switch_closed.png");
+    loadTexture(switchOpen, "switch_open.png");
 
     // Trains
     loadTexture(train_up, "up_train.png");
@@ -90,7 +90,7 @@ bool initializeApp() {
     loadTexture(train_left, "left_train.png");
     loadTexture(train_right, "right_train.png");
 
-    // Indicators 
+    // Indicators
     loadTexture(indicator_g, "green_indicator.png");
     loadTexture(indicator_y, "yellow_indicator.png");
     loadTexture(indicator_r, "red_indicator.png");
@@ -103,7 +103,6 @@ bool initializeApp() {
 
     return true;
 }
-
 
 void drawFitSprite(sf::Texture &tex, float x, float y)
 {
@@ -135,19 +134,24 @@ void drawFitSprite(sf::Texture &tex, float x, float y)
 // controls: SPACE to pause/resume, PERIOD to step one tick, ESC to exit. The
 // loop exits when the window is closed or ESC is pressed.
 // ----------------------------------------------------------------------------
-void runApp() {
-     sf::Clock clock;
+void runApp()
+{
+    sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time timePerTick = sf::seconds(0.5f);
 
     while (g_window->isOpen())
     {
-        //events like keyboard button pressed and other mouse scrollig
+        // events like keyboard button pressed and other mouse scrollig
         sf::Event event;
         while (g_window->pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 g_window->close();
+                writeMetrics();
+            }
+
             if (event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code == sf::Keyboard::Escape)
@@ -200,8 +204,9 @@ void runApp() {
                 timeSinceLastUpdate -= timePerTick;
                 updateTick();
             }
-            if(isSimulationComplete()){
-                cout << "\nAll trains completed - simulation finished!"<< endl;
+            if (isSimulationComplete())
+            {
+                cout << "\nAll trains completed - simulation finished!" << endl;
                 g_isPaused = true;
             }
         }
@@ -210,11 +215,10 @@ void runApp() {
             clock.restart();
         }
 
-
-        g_window->clear(sf::Color(20, 20, 20)); //background
+        g_window->clear(sf::Color(20, 20, 20)); // background
         g_window->setView(g_camera);
 
-        //drawing grid with sprites
+        // drawing grid with sprites
         for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < cols; c++)
@@ -241,7 +245,7 @@ void runApp() {
                     drawFitSprite(safety, px, py);
                 else if (tile >= 'A' && tile <= 'Z')
                 {
-                    //swtich logic and transition
+                    // swtich logic and transition
                     int idx = tile - 'A';
                     if (switchState[idx] == 0)
                         drawFitSprite(switchClosed, px, py);
@@ -251,7 +255,7 @@ void runApp() {
             }
         }
 
-        //drawing trains
+        // drawing trains
         for (int i = 0; i < MAX_TRAINS; i++)
         {
             if (trainState[i] == TRAIN_STATE_ACTIVE)
@@ -292,7 +296,8 @@ void runApp() {
 // should be called once at the end of the application before exiting to ensure
 // proper resource cleanup.
 // ----------------------------------------------------------------------------
-void cleanupApp() {
+void cleanupApp()
+{
     if (g_window)
     {
         delete g_window;

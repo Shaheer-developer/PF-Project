@@ -65,6 +65,9 @@ void simulateOneTick()
     // change state and reset counter
     applyDeferredFlips();
 
+        logTrainTrace();      
+    logSwitchState();    
+
     printGridToTerminal();
 }
 

@@ -12,7 +12,38 @@
 // ----------------------------------------------------------------------------
 // Increment counters for trains entering switches.
 // ----------------------------------------------------------------------------
-void updateSwitchCounters() {
+void updateSwitchCounters()
+{
+    for (int i = 0; i < numTrains; i++)
+    {
+        if (trainState[i] != TRAIN_STATE_ACTIVE)
+            continue;
+
+        int x = train_x[i];
+        int y = train_y[i];
+        char tile = grid[y][x];
+
+        if (tile >= 'A' && tile <= 'Z')
+        {
+            int swIdx = tile - 'A';
+
+            // calculating from wher the train is coming from , like if moving right means it comes from left
+            //(dir+2)%4 gives opposite direction
+            int entryDir = (currDir[i] + 2) % 4;
+
+            // incrment based on mode
+            if (sw_mode[swIdx] == SWITCH_MODE_GLOBAL)
+            {
+                // global
+                counters[swIdx][0]++;
+            }
+            else
+            {
+                // according to direction
+                counters[swIdx][entryDir]++;
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -20,7 +51,8 @@ void updateSwitchCounters() {
 // ----------------------------------------------------------------------------
 // Queue flips when counters hit K.
 // ----------------------------------------------------------------------------
-void queueSwitchFlips() {
+void queueSwitchFlips()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -28,7 +60,8 @@ void queueSwitchFlips() {
 // ----------------------------------------------------------------------------
 // Apply queued flips after movement.
 // ----------------------------------------------------------------------------
-void applyDeferredFlips() {
+void applyDeferredFlips()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -36,7 +69,8 @@ void applyDeferredFlips() {
 // ----------------------------------------------------------------------------
 // Update signal colors for switches.
 // ----------------------------------------------------------------------------
-void updateSignalLights() {
+void updateSignalLights()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -44,7 +78,8 @@ void updateSignalLights() {
 // ----------------------------------------------------------------------------
 // Manually toggle a switch state.
 // ----------------------------------------------------------------------------
-void toggleSwitchState() {
+void toggleSwitchState()
+{
 }
 
 // ----------------------------------------------------------------------------
@@ -52,5 +87,6 @@ void toggleSwitchState() {
 // ----------------------------------------------------------------------------
 // Return the state for a given direction.
 // ----------------------------------------------------------------------------
-int getSwitchStateForDirection() {
+int getSwitchStateForDirection()
+{
 }

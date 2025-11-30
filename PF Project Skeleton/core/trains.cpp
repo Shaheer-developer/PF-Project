@@ -152,6 +152,8 @@ bool determineNextPosition(int trainId)
     if (grid[ny][nx] == '.' || grid[ny][nx] == ' ')
         return false;
 
+        cout<< "Train "<< trainId<< " at ("<<cx<<","<<cy<<") "<<endl;
+
     return true;
 }
 

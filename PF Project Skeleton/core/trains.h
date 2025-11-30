@@ -47,10 +47,6 @@ void checkArrivals();
 // ----------------------------------------------------------------------------
 // EMERGENCY HALT
 // ----------------------------------------------------------------------------
-// Apply emergency halt in active zone.
-void applyEmergencyHalt();
 
-// Update emergency halt timer.
-void updateEmergencyHalt();
 
 #endif

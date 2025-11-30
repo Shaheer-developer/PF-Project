@@ -37,7 +37,7 @@ static float g_cellSize = 40.0f;
 static float g_gridOffsetX = 50.0f;
 static float g_gridOffsetY = 50.0f;
 
-sf::Texture horizontal_t, vertical_t, trackCross, trackLeft, trackRight;
+sf::Texture horizontal_texture, vertical_texture, trackCross, trackLeft, trackRight;
 sf::Texture switchOpen, switchClosed;
 sf::Texture spawn, dest, safety;
 sf::Texture train_up, train_down, train_left, train_right;
@@ -71,8 +71,8 @@ bool initializeApp()
     cout << "Loading Textures..." << endl;
 
     // loading texture
-    loadTexture(horizontal_t, "track.png");
-    loadTexture(vertical_t, "track_vertical.png");
+    loadTexture(horizontal_texture, "track.png");
+    loadTexture(vertical_texture, "track_vertical.png");
     loadTexture(trackCross, "track_cross.png");
     loadTexture(trackLeft, "track_tilt_left.png");
     loadTexture(trackRight, "track_tilt_right.png");
@@ -228,9 +228,9 @@ void runApp()
                 float py = r * g_cellSize;
 
                 if (tile == '-')
-                    drawFitSprite(horizontal_t, px, py);
+                    drawFitSprite(horizontal_texture, px, py);
                 else if (tile == '|')
-                    drawFitSprite(vertical_t, px, py);
+                    drawFitSprite(vertical_texture, px, py);
                 else if (tile == '/')
                     drawFitSprite(trackLeft, px, py);
                 else if (tile == '\\')

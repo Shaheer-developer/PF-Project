@@ -26,8 +26,7 @@ void applyDeferredFlips();
 // ----------------------------------------------------------------------------
 // SIGNAL CALCULATION
 // ----------------------------------------------------------------------------
-// Update switch signal colors.
-void updateSignalLights();
+
 
 // ----------------------------------------------------------------------------
 // SWITCH TOGGLE (for manual control / editing)

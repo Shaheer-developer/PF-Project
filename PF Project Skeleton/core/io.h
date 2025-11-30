@@ -23,8 +23,6 @@ void logTrainTrace();
 // Append switch state to switches.csv.
 void logSwitchState();
 
-// Append signal state to signals.csv.
-void logSignalState();
 
 // Write final metrics to metrics.txt.
 void writeMetrics();

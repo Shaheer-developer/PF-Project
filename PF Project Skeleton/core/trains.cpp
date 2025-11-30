@@ -112,11 +112,7 @@ void spawnTrainsForTick()
     }
 }
 
-// ----------------------------------------------------------------------------
-// DETERMINE NEXT POSITION for a train
-// ----------------------------------------------------------------------------
-// Compute next position/direction from current tile and rules.
-// ----------------------------------------------------------------------------
+
 bool determineNextPosition(int trainId)
 {
      int cx = train_x[trainId];
@@ -157,11 +153,7 @@ bool determineNextPosition(int trainId)
     return true;
 }
 
-// ----------------------------------------------------------------------------
-// GET NEXT DIRECTION based on current tile and direction
-// ----------------------------------------------------------------------------
-// Return new direction after entering the tile.
-// ----------------------------------------------------------------------------
+
 int getNextDirection(int trainId, int x, int y, int inDir)
 {
     char tile = grid[y][x];
@@ -215,11 +207,7 @@ int getNextDirection(int trainId, int x, int y, int inDir)
     return inDir;
 }
 
-// ----------------------------------------------------------------------------
-// SMART ROUTING AT CROSSING - Route train to its matched destination
-// ----------------------------------------------------------------------------
-// Choose best direction at '+' toward destination.
-// ----------------------------------------------------------------------------
+
 int getSmartDirectionAtCrossing(int x, int y)
 {
      //Find the nearest destination tile for the train
@@ -274,11 +262,7 @@ int getSmartDirectionAtCrossing(int x, int y)
     return bestDir;
 }
 
-// ----------------------------------------------------------------------------
-// DETERMINE ALL ROUTES (PHASE 2)
-// ----------------------------------------------------------------------------
-// Fill next positions/directions for all trains.
-// ----------------------------------------------------------------------------
+
 void determineAllRoutes()
 {
     for (int i = 0; i < numTrains; i++)
@@ -295,11 +279,7 @@ void determineAllRoutes()
     }
 }
 
-// ----------------------------------------------------------------------------
-// MOVE ALL TRAINS (PHASE 5)
-// ----------------------------------------------------------------------------
-// Move trains; resolve collisions and apply effects.
-// ----------------------------------------------------------------------------
+
 void moveAllTrains()
 {
         detectCollisions();
@@ -316,11 +296,7 @@ void moveAllTrains()
     checkArrivals();
 }
 
-// ----------------------------------------------------------------------------
-// DETECT COLLISIONS WITH PRIORITY SYSTEM
-// ----------------------------------------------------------------------------
-// Resolve same-tile, swap, and crossing conflicts.
-// ----------------------------------------------------------------------------
+
 void detectCollisions()
 {
      int dist[MAX_TRAINS];
@@ -400,11 +376,7 @@ void detectCollisions()
     }
 }
 
-// ----------------------------------------------------------------------------
-// CHECK ARRIVALS
-// ----------------------------------------------------------------------------
-// Mark trains that reached destinations.
-// ----------------------------------------------------------------------------
+
 void checkArrivals()
 {
         for (int i = 0; i < numTrains; i++)
@@ -422,20 +394,5 @@ void checkArrivals()
     }
 }
 
-// ----------------------------------------------------------------------------
-// APPLY EMERGENCY HALT
-// ----------------------------------------------------------------------------
-// Apply halt to trains in the active zone.
-// ----------------------------------------------------------------------------
-void applyEmergencyHalt()
-{
-}
 
-// ----------------------------------------------------------------------------
-// UPDATE EMERGENCY HALT
-// ----------------------------------------------------------------------------
-// Decrement timer and disable when done.
-// ----------------------------------------------------------------------------
-void updateEmergencyHalt()
-{
-}
+

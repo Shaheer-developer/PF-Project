@@ -33,12 +33,12 @@ void updateSignalLights();
 // SWITCH TOGGLE (for manual control / editing)
 // ----------------------------------------------------------------------------
 // Manually toggle a switch state.
-void toggleSwitchState();
+void toggleSwitchState(int index);
 
 // ----------------------------------------------------------------------------
 // HELPER FUNCTIONS
 // ----------------------------------------------------------------------------
 // Get state for a given direction.
-int getSwitchStateForDirection();
+int getSwitchStateForDirection(int index);
 
 #endif

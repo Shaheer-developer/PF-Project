@@ -2,6 +2,8 @@
 #include "simulation_state.h"
 #include "grid.h"
 #include "io.h"
+#include <iostream>
+using namespace std;
 
 // ============================================================================
 // SWITCHES.CPP - Switch management
@@ -85,6 +87,26 @@ void queueSwitchFlips()
 // ----------------------------------------------------------------------------
 void applyDeferredFlips()
 {
+      for (int i = 0; i < MAX_SWITCHES; i++)
+    {
+        if (!switchActive[i])
+            continue;
+
+        if (flipQueued[i])
+        {
+            switchState[i] = !switchState[i];
+
+            for (int k = 0; k < 4; k++)
+            {
+                counters[i][k] = 0;
+            }
+
+            flipQueued[i] = false;
+
+            switchFlips++;
+            cout << "Switch " << (char)('A' + i) << " flipped to " << switchState[i] << endl;
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -101,8 +123,13 @@ void updateSignalLights()
 // ----------------------------------------------------------------------------
 // Manually toggle a switch state.
 // ----------------------------------------------------------------------------
-void toggleSwitchState()
+void toggleSwitchState(int switchIndex)
 {
+     if (switchIndex >= 0 && switchIndex < MAX_SWITCHES && switchActive[switchIndex])
+    {
+        switchState[switchIndex] = !switchState[switchIndex];
+        cout << "Manual Toggle: Switch " << (char)('A' + switchIndex) << endl;
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -110,6 +137,7 @@ void toggleSwitchState()
 // ----------------------------------------------------------------------------
 // Return the state for a given direction.
 // ----------------------------------------------------------------------------
-int getSwitchStateForDirection()
+int getSwitchStateForDirection(int switchIndex)
 {
+     return switchState[switchIndex];
 }
